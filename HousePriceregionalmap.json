@@ -1,0 +1,50 @@
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "width": 200,
+  "height": 350,
+  "view": {"stroke": ""},
+  "title": {
+    "text": "Average Regional House Price 2022",
+    "fontSize": 12,
+    "subtitle": ["Average House Price in England and Wales - Source ONS", ""],
+    "subtitleFontStyle": "italic",
+    "subtitleFontSize": 10,
+    "anchor": "middle"
+  },
+  "data": {
+    "url": "https://raw.githubusercontent.com/acoops2022/Interview-Presentations/main/HousePriceRegionsE%26W2022.csv",
+    "format": {"type": "csv"}
+  },
+  "transform": [
+    {
+      "lookup": "Region",
+      "from": {
+        "data": {
+          "url": "https://raw.githubusercontent.com/jhellingsdata/jhellingsdata.github.io/main/Data/UK%20Map%20Data/ITL1_2021_20m.geojson",
+          "format": {"property": "features"}
+        },
+        "key": "properties.ITL121NM",
+        "fields": ["properties", "type", "geometry"]
+      }
+    }
+  ],
+  "projection": {"type": "mercator"},
+  "mark": {"type": "geoshape"},
+  "encoding": {
+    "tooltip": [
+      {"field": "properties.ITL121NM", "type": "ordinal", "title": "Region"},
+      {
+        "field": "Average Price",
+        "type": "quantitative",
+        "title": "Average House Price"
+      }
+    ],
+    "color": {
+      "field": "Average Price",
+      "legend": {"title": "£", "orient": "right", "direction": "vertical"},
+      "type": "quantitative",
+      "scale": {"scheme": "lightgreyred"}
+    }
+  },
+  "config": {}
+}
